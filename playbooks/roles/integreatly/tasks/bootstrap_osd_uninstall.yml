@@ -1,4 +1,6 @@
 ---
+- include_tasks: authenticate_tower.yml
+
 - name: "Create integreatly uninstall project for {{ integreatly_osd_uninstall_branch }}"
   tower_project:
     name: "integreatly-uninstall-{{ integreatly_osd_uninstall_branch }}"
