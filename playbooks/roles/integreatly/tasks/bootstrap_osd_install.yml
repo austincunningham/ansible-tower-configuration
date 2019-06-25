@@ -1,5 +1,4 @@
 ---
-- include_tasks: authenticate_tower.yml
 
 - name: "Create integreatly install project for {{ integreatly_osd_install_branch }}"
   tower_project:
