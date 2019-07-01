@@ -1,61 +1,61 @@
 ---
-# Authenticate with tower
-- include_tasks: authenticate_tower.yml
-
-- name: 'Create the {{ tower_organization }} organisation'
-  tower_organization:
-    name: '{{ tower_organization }}'
-    state: present
-    tower_verify_ssl: '{{ tower_verify_ssl }}'
-
-- name: 'Create the {{ tower_team }} team'
-  tower_team:
-    name: '{{ tower_team }}'
-    organization: '{{ tower_organization }}'
-    state: present
-    tower_verify_ssl: '{{ tower_verify_ssl }}'
-
-- name: 'Modify Tower settings to allow authentication via Github'
-  shell: '{{ item }}'
-  no_log: true
-  with_items:
-    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_NAME "{{ social_auth_github_org_name }}"'
-    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_KEY "{{ social_auth_github_org_key }}"'
-    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_SECRET "{{ social_auth_github_org_secret }}"'
-    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_ORGANIZATION_MAP "{{ social_auth_github_org_organization_map }}"'
-    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_TEAM_MAP "{{ social_auth_github_org_team_map }}"'
-
-- name: 'Generate generic tower extra vars file'
-  template:
-    src: 'tower_extra_vars.yml.j2'
-    dest: "{{ tower_extra_vars_file_path }}"
-
-# Import the credentials bootstrap task
-- include_tasks: bootstrap_credentials.yml
-
-
-- name: 'Create inventory: {{ tower_inventory_name }}'
-  tower_inventory:
-    name: '{{ tower_inventory_name }}'
-    description: '{{ tower_inventory_desc }}'
-    organization: '{{ tower_organization }}'
-    state: present
-    tower_verify_ssl: '{{ tower_verify_ssl }}'
-
-- name: 'Create local host'
-  tower_host:
-    name: '{{ tower_host_local_name }}'
-    inventory: '{{ tower_inventory_name }}'
-    description: '{{ tower_host_local_desc }}'
-    variables:
-      ansible_connection: local
-    state: present
-    tower_verify_ssl: '{{ tower_verify_ssl }}'
-
-
-# Import the credentials bootstrap task
+## Authenticate with tower
+#- include_tasks: authenticate_tower.yml
+#
+#- name: 'Create the {{ tower_organization }} organisation'
+#  tower_organization:
+#    name: '{{ tower_organization }}'
+#    state: present
+#    tower_verify_ssl: '{{ tower_verify_ssl }}'
+#
+#- name: 'Create the {{ tower_team }} team'
+#  tower_team:
+#    name: '{{ tower_team }}'
+#    organization: '{{ tower_organization }}'
+#    state: present
+#    tower_verify_ssl: '{{ tower_verify_ssl }}'
+#
+#- name: 'Modify Tower settings to allow authentication via Github'
+#  shell: '{{ item }}'
+#  no_log: true
+#  with_items:
+#    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_NAME "{{ social_auth_github_org_name }}"'
+#    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_KEY "{{ social_auth_github_org_key }}"'
+#    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_SECRET "{{ social_auth_github_org_secret }}"'
+#    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_ORGANIZATION_MAP "{{ social_auth_github_org_organization_map }}"'
+#    - 'tower-cli setting modify SOCIAL_AUTH_GITHUB_ORG_TEAM_MAP "{{ social_auth_github_org_team_map }}"'
+#
+#- name: 'Generate generic tower extra vars file'
+#  template:
+#    src: 'tower_extra_vars.yml.j2'
+#    dest: "{{ tower_extra_vars_file_path }}"
+#
+## Import the credentials bootstrap task
+#- include_tasks: bootstrap_credentials.yml
+#
+#
+#- name: 'Create inventory: {{ tower_inventory_name }}'
+#  tower_inventory:
+#    name: '{{ tower_inventory_name }}'
+#    description: '{{ tower_inventory_desc }}'
+#    organization: '{{ tower_organization }}'
+#    state: present
+#    tower_verify_ssl: '{{ tower_verify_ssl }}'
+#
+#- name: 'Create local host'
+#  tower_host:
+#    name: '{{ tower_host_local_name }}'
+#    inventory: '{{ tower_inventory_name }}'
+#    description: '{{ tower_host_local_desc }}'
+#    variables:
+#      ansible_connection: local
+#    state: present
+#    tower_verify_ssl: '{{ tower_verify_ssl }}'
+#
+#
+## Import the credentials bootstrap task
 - include_tasks: bootstrap_projects.yml
-
-
-# Import Job Template bootstrapping
+#
+#
+## Import Job Template bootstrapping
 - include_tasks: bootstrap_jobs.yml
