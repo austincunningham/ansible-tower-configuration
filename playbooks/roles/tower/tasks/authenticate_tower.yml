@@ -9,3 +9,5 @@
   when: tower_login
   no_log: true
 
+- debug:
+    var: cluster_credential_git_user
